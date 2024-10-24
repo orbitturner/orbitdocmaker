@@ -19,7 +19,7 @@ export class DocumentService {
     parseInt(process.env.PDF_MAX_CONSULTATIONS, 10) || 5;
   private expirationHours =
     parseInt(process.env.PDF_EXPIRATION_HOURS, 10) || 24;
-  private appUrl = process.env.APP_URL || 'http://localhost:3000';
+  private appUrl = process.env.APP_URL;
 
   constructor(
     @InjectModel(GeneratedDocument.name)
