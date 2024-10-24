@@ -1,0 +1,32 @@
+version: '3'
+services:
+  mongodb:
+    image: mongo:4.4
+    container_name: mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - ./data/mongodb:/data/db
+    ports:
+      - "27017:27017"
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nestjs-app
+    restart: always
+    environment:
+      MONGODB_URI: mongodb://root:example@mongodb:27017/docmaker?authSource=admin
+      ARCHIVE_PATH: /usr/src/app/archives
+      PDF_MAX_CONSULTATIONS: 5
+      PDF_EXPIRATION_HOURS: 24
+      APP_URL: http://localhost:3000
+    volumes:
+      - ./:/usr/src/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
